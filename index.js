@@ -58,7 +58,8 @@ app.post('/api/todos', (req, res) => {
   
   const todos = readTodos();
   const newTodo = {
-    id: Date.now(),
+    // FIX: Add a small random number to Date.now() to ensure unique IDs during fast tests
+    id: Date.now() + Math.floor(Math.random() * 1000), 
     text: text.trim(),
     completed: false,
     createdAt: new Date().toISOString()
@@ -73,7 +74,7 @@ app.post('/api/todos', (req, res) => {
   }
 });
 
-// Toggle todo completion
+// Toggle todo completion status
 app.put('/api/todos/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const todos = readTodos();
@@ -83,7 +84,15 @@ app.put('/api/todos/:id', (req, res) => {
     return res.status(404).json({ error: 'Todo not found' });
   }
   
-  todos[todoIndex].completed = true;
+  // Toggle the completion status (true -> false / false -> true)
+  todos[todoIndex].completed = !todos[todoIndex].completed;
+  
+  // Save changes and return the updated todo item
+  if (writeTodos(todos)) {
+    res.json(todos[todoIndex]); // Fixed: Added response to prevent timeout
+  } else {
+    res.status(500).json({ error: 'Failed to update todo' });
+  }
 });
 
 // Delete a todo
