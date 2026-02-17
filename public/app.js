@@ -97,6 +97,32 @@ async function deleteTodo(id) {
     }
 }
 
+// --- NEW: Edit Function (Step 4) ---
+async function editTodo(id, currentText) {
+    const newText = prompt("Edit your todo:", currentText); //
+    
+    if (newText === null || newText.trim() === "" || newText === currentText) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: newText.trim() }),
+        });
+        
+        if (response.ok) {
+            const updatedTodo = await response.json();
+            const index = todos.findIndex(t => t.id === id);
+            if (index !== -1) {
+                todos[index] = updatedTodo;
+                renderTodos();
+            }
+        }
+    } catch (error) {
+        console.error('Error editing todo:', error);
+    }
+}
+
 // Render todos to the DOM
 function renderTodos() {
     if (todos.length === 0) {
@@ -111,6 +137,7 @@ function renderTodos() {
                     onchange="toggleTodo(${todo.id})"
                 />
                 <span class="todo-text">${escapeHtml(todo.text)}</span>
+                <button class="edit-btn" onclick="editTodo(${todo.id}, '${escapeHtml(todo.text)}')">Edit</button>
                 <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
             </div>
         `).join('');
