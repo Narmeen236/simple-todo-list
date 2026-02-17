@@ -116,7 +116,7 @@ h1 {
     color: white;
     border: none;
     padding: 8px 15px;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
     transition: background 0.2s;
@@ -124,6 +124,20 @@ h1 {
 
 .delete-btn:hover {
     background: #ff3838;
+}
+
+.edit-btn {
+    background-color: #7d89f0; 
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+.edit-btn:hover {
+    background-color: #5a69d1;
 }
 
 .stats {
@@ -140,4 +154,18 @@ h1 {
     padding: 40px;
     color: #6c757d;
     font-size: 18px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    gap: 10px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto; 
 }
