@@ -137,12 +137,14 @@ function renderTodos() {
                     onchange="toggleTodo(${todo.id})"
                 />
                 <span class="todo-text">${escapeHtml(todo.text)}</span>
-                <button class="edit-btn" onclick="editTodo(${todo.id}, '${escapeHtml(todo.text)}')">Edit</button>
-                <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+                
+                <div class="actions">
+                    <button class="edit-btn" onclick="editTodo(${todo.id}, '${escapeHtml(todo.text)}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteTodo(${todo.id})">Delete</button>
+                </div>
             </div>
         `).join('');
     }
-    
     updateStats();
 }
 
